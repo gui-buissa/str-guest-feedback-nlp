@@ -1,0 +1,13 @@
+listing_id,id,date,comments,neighbourhood_cleansed,property_type,review_scores_cleanliness,synthetic
+1001,9000001,2025-01-12,"Great location, two blocks from the beach. The place was spotless and check-in was easy.",Fort Lauderdale,Entire home,4.9,yes
+1001,9000002,2025-03-02,"The air conditioning stopped working on the second night and it took a day to get someone to fix it.",Fort Lauderdale,Entire home,4.9,yes
+1002,9000003,2025-02-20,"Very noisy at night. Loud music from the neighbors until 2am and nobody answered when we called.",Hollywood,Entire condo,4.2,yes
+1002,9000004,2025-06-18,"Nice view and comfortable beds. A bit dusty in the bathroom but nothing major.",Hollywood,Entire condo,4.2,yes
+1003,9000005,2024-12-28,"We could not find the lockbox and waited an hour outside with our luggage. Instructions were confusing.",Pompano Beach,Entire home,4.5,yes
+1003,9000006,2025-07-04,"Perfect for our family. The pool was clean and the kids loved it. Would book again.",Pompano Beach,Entire home,4.5,yes
+1004,9000007,2025-04-09,"The apartment smelled like smoke and the sheets were stained. We asked for a refund.",Hallandale Beach,Entire condo,3.6,yes
+1004,9000008,2025-05-15,"Overpriced for what you get. Small kitchen and very few towels.",Hallandale Beach,Entire condo,3.6,yes
+1005,9000009,2025-08-21,"Host was super responsive and gave great tips for restaurants. Everything worked as described.",Deerfield Beach,Private room,4.8,yes
+1005,9000010,2025-09-30,"Parking was a nightmare, the building only has two spots for all guests.",Deerfield Beach,Private room,4.8,yes
+1006,9000011,2025-10-11,"Wifi kept dropping so I could not work. Otherwise a pleasant stay.",Dania Beach,Entire home,4.7,yes
+1006,9000012,2026-01-05,"Spotless, modern, and exactly like the photos. Highly recommend.",Dania Beach,Entire home,4.7,yes

@@ -218,3 +218,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Raw data is not republished (see data/README.md)
+data/raw/
