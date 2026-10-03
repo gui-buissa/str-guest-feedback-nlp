@@ -51,3 +51,4 @@ README.md   this file
 ## Team
 
 * Guilherme Buissa
+* Manoj Sandra
