@@ -6,7 +6,7 @@ Text analytics on short-term rental guest reviews: what do guests complain about
 
 ## The problem
 
-A company that manages about 300 short-term rental homes in Florida collects thousands of guest reviews, but nobody turns them into action. Operations fixes problems one at a time, and the same complaints keep coming back.
+A company that manages about 300 short-term rental homes in South Florida collects thousands of guest reviews, but nobody turns them into action. Operations fixes problems one at a time, and the same complaints keep coming back.
 
 Star ratings do not help here. In the Broward County data, every review sub-score averages between 4.65 and 4.82 out of 5, so almost every home looks excellent. The useful information is in the review text.
 
