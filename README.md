@@ -49,6 +49,7 @@ README.md   this file
 
 * Oct 3: problem, data and repository set up (Phase 1).
 * Oct 20: switched to Path B after the Phase 1 feedback.
+* Oct 21: Manoj cloned the repo and reviewed the Path B plan.
 
 ## Team
 
