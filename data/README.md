@@ -19,4 +19,8 @@ Please cite the data as: *Inside Airbnb, Broward County, FL, 2026-06-29, insidea
 
 ## `sample_mock.csv`
 
-Twelve made-up reviews that only show the format of the real data (a few columns from `reviews.csv.gz` joined with a few columns from `listings.csv.gz`). They are synthetic, marked with `synthetic = yes`, and not real guest reviews.
+Twelve made-up reviews that only show the format of the real data (a few columns from `reviews.csv.gz` joined with a few columns from `listings.csv.gz`). They are synthetic, marked with `synthetic = yes`, and not real guest reviews. The Phase 2 notebook uses them as examples and for the Claude prompt test, so no real review is shown in this public repo.
+
+## `claude_prompt_test_mock.json`
+
+Claude's aspect labels and token counts for the twelve made-up reviews above, saved by the Phase 2 notebook (section 3.3) so a rerun does not call the API again. No real review is in this file.
