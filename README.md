@@ -35,7 +35,7 @@ Full details in [`notebooks/phase2_exploration.ipynb`](notebooks/phase2_explorat
 
 * Only about 2.4% of recent English reviews are negative (VADER), so complaints are rare and easy to miss.
 * Cleanliness shows up in 42% of the negative reviews, the most common complaint. Maintenance is mentioned less, but when it is, it is the most likely to be negative.
-* Homes with a cleanliness score below 4.5 get 5.0% negative reviews, against 1.2% for homes above 4.8, so the text carries real signal.
+* Homes with a cleanliness score below 4.5 get 5.3% negative reviews, against 1.2% for homes above 4.8, so the text carries real signal.
 * A first test of the Claude aspect prompt on 12 made-up reviews agreed with our expected labels on 95% of the decisions, at about $0.0002 per review.
 
 ## Plan for Phase 3
