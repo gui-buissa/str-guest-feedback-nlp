@@ -1,0 +1,326 @@
+[
+ {
+  "id": 9000001,
+  "labels": {
+   "cleanliness": {
+    "sentiment": "positive",
+    "evidence": "The place was spotless"
+   },
+   "maintenance": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "host_communication": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "check_in": {
+    "sentiment": "positive",
+    "evidence": "check-in was easy"
+   },
+   "location": {
+    "sentiment": "positive",
+    "evidence": "Great location, two blocks from the beach"
+   }
+  },
+  "input_tokens": 1242,
+  "output_tokens": 162
+ },
+ {
+  "id": 9000002,
+  "labels": {
+   "cleanliness": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "maintenance": {
+    "sentiment": "negative",
+    "evidence": "The air conditioning stopped working on the second night"
+   },
+   "host_communication": {
+    "sentiment": "negative",
+    "evidence": "it took a day to get someone to fix it"
+   },
+   "check_in": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "location": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   }
+  },
+  "input_tokens": 1243,
+  "output_tokens": 156
+ },
+ {
+  "id": 9000003,
+  "labels": {
+   "cleanliness": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "maintenance": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "host_communication": {
+    "sentiment": "negative",
+    "evidence": "nobody answered when we called"
+   },
+   "check_in": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "location": {
+    "sentiment": "negative",
+    "evidence": "Very noisy at night. Loud music from the neighbors until 2am"
+   }
+  },
+  "input_tokens": 1247,
+  "output_tokens": 160
+ },
+ {
+  "id": 9000004,
+  "labels": {
+   "cleanliness": {
+    "sentiment": "negative",
+    "evidence": "A bit dusty in the bathroom but nothing major."
+   },
+   "maintenance": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "host_communication": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "check_in": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "location": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   }
+  },
+  "input_tokens": 1245,
+  "output_tokens": 150
+ },
+ {
+  "id": 9000005,
+  "labels": {
+   "cleanliness": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "maintenance": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "host_communication": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "check_in": {
+    "sentiment": "negative",
+    "evidence": "We could not find the lockbox and waited an hour outside with our luggage. Instructions were confusing."
+   },
+   "location": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   }
+  },
+  "input_tokens": 1247,
+  "output_tokens": 164
+ },
+ {
+  "id": 9000006,
+  "labels": {
+   "cleanliness": {
+    "sentiment": "positive",
+    "evidence": "The pool was clean"
+   },
+   "maintenance": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "host_communication": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "check_in": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "location": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   }
+  },
+  "input_tokens": 1242,
+  "output_tokens": 139
+ },
+ {
+  "id": 9000007,
+  "labels": {
+   "cleanliness": {
+    "sentiment": "negative",
+    "evidence": "The apartment smelled like smoke and the sheets were stained."
+   },
+   "maintenance": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "host_communication": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "check_in": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "location": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   }
+  },
+  "input_tokens": 1243,
+  "output_tokens": 152
+ },
+ {
+  "id": 9000008,
+  "labels": {
+   "cleanliness": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "maintenance": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "host_communication": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "check_in": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "location": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   }
+  },
+  "input_tokens": 1237,
+  "output_tokens": 150
+ },
+ {
+  "id": 9000009,
+  "labels": {
+   "cleanliness": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "maintenance": {
+    "sentiment": "positive",
+    "evidence": "Everything worked as described."
+   },
+   "host_communication": {
+    "sentiment": "positive",
+    "evidence": "Host was super responsive"
+   },
+   "check_in": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "location": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   }
+  },
+  "input_tokens": 1242,
+  "output_tokens": 144
+ },
+ {
+  "id": 9000010,
+  "labels": {
+   "cleanliness": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "maintenance": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "host_communication": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "check_in": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "location": {
+    "sentiment": "negative",
+    "evidence": "Parking was a nightmare, the building only has two spots for all guests."
+   }
+  },
+  "input_tokens": 1237,
+  "output_tokens": 154
+ },
+ {
+  "id": 9000011,
+  "labels": {
+   "cleanliness": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "maintenance": {
+    "sentiment": "negative",
+    "evidence": "Wifi kept dropping so I could not work."
+   },
+   "host_communication": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "check_in": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "location": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   }
+  },
+  "input_tokens": 1243,
+  "output_tokens": 147
+ },
+ {
+  "id": 9000012,
+  "labels": {
+   "cleanliness": {
+    "sentiment": "positive",
+    "evidence": "Spotless, modern, and exactly like the photos."
+   },
+   "maintenance": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "host_communication": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "check_in": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   },
+   "location": {
+    "sentiment": "not_mentioned",
+    "evidence": ""
+   }
+  },
+  "input_tokens": 1239,
+  "output_tokens": 149
+ }
+]
