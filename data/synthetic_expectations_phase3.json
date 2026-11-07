@@ -1,0 +1,109 @@
+{
+  "status": "Draft expected labels prepared by Codex; Gui/Claude review before use. Synthetic prompt-development examples, not independent evaluation.",
+  "cases": [
+    {
+      "case_no": 1,
+      "source_id": "9000001",
+      "expected": {
+        "cleanliness": "Positive",
+        "check_in": "Positive",
+        "location": "Positive"
+      },
+      "discussion": ""
+    },
+    {
+      "case_no": 2,
+      "source_id": "9000002",
+      "expected": {
+        "maintenance": "Negative",
+        "host_communication": "Negative"
+      },
+      "discussion": "Service delay may be interpreted as maintenance only or also communication; discuss the definition rather than automatically calling a disagreement an error."
+    },
+    {
+      "case_no": 3,
+      "source_id": "9000003",
+      "expected": {
+        "noise": "Negative",
+        "host_communication": "Negative"
+      },
+      "discussion": ""
+    },
+    {
+      "case_no": 4,
+      "source_id": "9000004",
+      "expected": {
+        "cleanliness": "Negative",
+        "other": "Positive"
+      },
+      "discussion": ""
+    },
+    {
+      "case_no": 5,
+      "source_id": "9000005",
+      "expected": {
+        "check_in": "Negative"
+      },
+      "discussion": ""
+    },
+    {
+      "case_no": 6,
+      "source_id": "9000006",
+      "expected": {
+        "cleanliness": "Positive",
+        "other": "Positive"
+      },
+      "discussion": "Pool enjoyment/amenity is Other; generic family praise alone would not be enough."
+    },
+    {
+      "case_no": 7,
+      "source_id": "9000007",
+      "expected": {
+        "cleanliness": "Negative"
+      },
+      "discussion": ""
+    },
+    {
+      "case_no": 8,
+      "source_id": "9000008",
+      "expected": {
+        "other": "Negative"
+      },
+      "discussion": ""
+    },
+    {
+      "case_no": 9,
+      "source_id": "9000009",
+      "expected": {
+        "host_communication": "Positive",
+        "maintenance": "Positive"
+      },
+      "discussion": "Everything worked is broad but explicitly concerns functioning; verify consistency of maintenance definition."
+    },
+    {
+      "case_no": 10,
+      "source_id": "9000010",
+      "expected": {
+        "parking": "Negative"
+      },
+      "discussion": ""
+    },
+    {
+      "case_no": 11,
+      "source_id": "9000011",
+      "expected": {
+        "maintenance": "Negative"
+      },
+      "discussion": ""
+    },
+    {
+      "case_no": 12,
+      "source_id": "9000012",
+      "expected": {
+        "cleanliness": "Positive",
+        "other": "Positive"
+      },
+      "discussion": "Modern and accurate presentation fall under Other; do not infer additional unmentioned aspects."
+    }
+  ]
+}

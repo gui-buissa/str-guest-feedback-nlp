@@ -1,0 +1,38 @@
+{
+  "status": "Synthetic prompt-development cases approved by Gui; expected labels are a specification, not independent evaluation.",
+  "cases": [
+    {
+      "case_no": 13,
+      "text": "There is a parking space behind the house.",
+      "expected": {
+        "parking": "Neutral"
+      },
+      "purpose": "Factual mention without praise or complaint."
+    },
+    {
+      "case_no": 14,
+      "text": "The kitchen was spotless, but the bathroom was dirty.",
+      "expected": {
+        "cleanliness": "Negative"
+      },
+      "purpose": "Praise and complaint within the same aspect; Negative priority."
+    },
+    {
+      "case_no": 15,
+      "text": "The house was not dirty at all, and we enjoyed quiet nights with no noise.",
+      "expected": {
+        "cleanliness": "Positive",
+        "noise": "Positive"
+      },
+      "purpose": "Negation and explicit enjoyment of quietness."
+    },
+    {
+      "case_no": 16,
+      "text": "Fantastic, the air conditioning stopped working on the hottest night. Just what we needed!",
+      "expected": {
+        "maintenance": "Negative"
+      },
+      "purpose": "Sarcasm about a concrete equipment problem."
+    }
+  ]
+}

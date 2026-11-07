@@ -1,26 +1,29 @@
 # Data
 
-## Source
+## Source files (private)
 
-[Inside Airbnb](https://insideairbnb.com/get-the-data/), Broward County, Florida, scraped on 2026-06-29.
+[Inside Airbnb](https://insideairbnb.com/get-the-data/), Broward County, Florida. Local files are labeled June 29, 2026; the review file contains dates through July 1, 2026. Keep this discrepancy visible when describing the snapshot.
 
-| File | Rows | Columns | What it has |
-|---|---|---|---|
-| `reviews.csv.gz` | 703,651 | 6 | One row per guest review: `listing_id`, `id`, `date`, `reviewer_id`, `reviewer_name`, `comments` |
-| `listings.csv.gz` | 17,698 | 90 | One row per listing: neighborhood, property type, price, host info, and the review sub-scores |
+| File | Rows | Columns | Contents |
+|---|---:|---:|---|
+| `reviews.csv.gz` | 703,651 | 6 | Review ID, listing ID, date, reviewer fields and comments |
+| `listings.csv.gz` | 17,698 | 90 | Listing attributes, location, host fields and listing-level review sub-scores |
 
-The reviews cover 2011-08-23 to 2026-07-01 and 14,257 different listings. The text field is `comments`. Joining the two files on `listing_id` leaves out 253 reviews (0.04%), which belong to 8 listings that are missing from the listings file.
+The review file covers 14,257 listing IDs. Joining reviews to the current listings file leaves 253 unmatched reviews (about 0.04%). The source dates span August 23, 2011 through July 1, 2026; Phase III uses reviews from 2023 onward and a rough English-text filter.
 
-## The real data is not in this repository
+The team does not republish source data. Obtain the matching source files through Inside Airbnb and place them in `data/raw/`. That directory is ignored by Git. File exclusions do not replace checking notebook outputs before publication.
 
-Inside Airbnb asks users not to republish its data, so this repository does not include it. To reproduce the analysis, download both files once from the link above and put them in `data/raw/`. That folder is listed in `.gitignore`, so Git never uploads it.
+## Phase III private working files
 
-Please cite the data as: *Inside Airbnb, Broward County, FL, 2026-06-29, insideairbnb.com*.
+`data/raw/phase3/` holds the sample manifests, 10,000 sampled reviews, separate 20-review pilot, 30-review comparison set, raw API responses, review decisions and annotation files. The main sample uses seed 42. It has no VADER oversampling and no weights.
 
-## `sample_mock.csv`
+`human_label_Gui_Manoj.xlsx` is the team's completed comparison file, sheet `Rotulos`. `negative_check_163d7aa8fd7ccec2.csv` contains the 20-negative spot check. These files include real text and stay private, along with readable HTML review reports and the separate AI-filled example. A collaborator needs these private working files to reproduce the cached run, but can read the public aggregate notebook and HTML without them.
 
-Twelve made-up reviews that only show the format of the real data (a few columns from `reviews.csv.gz` joined with a few columns from `listings.csv.gz`). They are synthetic, marked with `synthetic = yes`, and not real guest reviews. The Phase 2 notebook uses them as examples and for the Claude prompt test, so no real review is shown in this public repo.
+## Invented examples (public)
 
-## `claude_prompt_test_mock.json`
+- `sample_mock.csv`: 12 invented reviews used in Phase II and development; marked synthetic.
+- `claude_prompt_test_mock.json`: saved Phase II responses for invented examples.
+- `synthetic_expectations_phase3.json`: development expectations for the original examples.
+- `synthetic_extra_cases_phase3.json`: four additional invented cases, giving 16 Phase III examples.
 
-Claude's aspect labels and token counts for the twelve made-up reviews above, saved by the Phase 2 notebook (section 3.3) so a rerun does not call the API again. No real review is in this file.
+Invented examples are not observations, do not enter market percentages and are not independent accuracy tests. Source data, API keys and real-review outputs are not included in these public examples.

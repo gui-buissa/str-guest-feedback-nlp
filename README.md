@@ -1,75 +1,62 @@
-# Short-Term Rental Guest Feedback: Text Analytics
+# Guest Review Analytics for Short-Term Rentals
 
-Text analytics on short-term rental guest reviews: what do guests complain about, where and when, and what should the operator fix first?
+**Check In, Check Out — Guilherme Buissa and Manoj Sandra**
 
-*Course project, INFO 4360 Complex Data Analytics, University of Denver (Phase 2: development).*
+INFO 4360 Complex Data Analytics, University of Denver. Phase III analysis completed; presentation and final report in preparation.
 
-## The problem
+## Business question
 
-A company that manages about 300 short-term rental homes in South Florida collects thousands of guest reviews, but nobody turns them into action. Operations fixes problems one at a time, and the same complaints keep coming back.
+What do guests praise and criticize, where do complaint patterns differ, and what should a short-term rental operations team investigate first?
 
-Star ratings do not help here. In the Broward County data, every review sub-score averages between 4.65 and 4.82 out of 5, so almost every home looks excellent. The useful information is in the review text.
+The stakeholder is a South Florida property operator's operations lead. Public Broward County market data provides context. We cannot identify which listings belong to the company, and do not claim to measure its own performance. The analysis follows **Path B: understanding and extraction**, rather than prediction. We did not train or fine-tune a new model.
 
-**Stakeholder:** the COO of the rental company, who decides where to spend on maintenance, cleaning and guest support.
+## Data and method
 
-**Why it matters:** catching the most common complaint types early means fewer repeat problems, fewer refunds, and better reviews and rebookings.
+Inside Airbnb reviews and listings from Broward County, Florida. The local source files contain 703,651 reviews and 17,698 listings. The files are labeled June 29, 2026, while review dates extend through July 1, 2026. Source details are in [data/README.md](data/README.md).
 
-## Analysis path: B (understanding and extraction)
+Reviews are joined to listings, cleaned and restricted to 2023 onward using a rough English-text filter. From 408,181 eligible reviews, we draw 10,000 random reviews with seed 42. No VADER-based selection, extra negative sampling or weighting is used in Phase III. The sample covers 5,175 listings before output validation.
 
-We changed from Path A to Path B after the Phase 1 feedback. The COO does not need a model that predicts a cleanliness score that already exists. The COO needs to know what guests complain about, where it happens and whether it is getting worse, so the main deliverable is a set of patterns with clear, numbered recommendations.
+Claude labels sentiment separately for cleanliness, maintenance, host communication, check-in, location, noise, parking and Other. Mentioned aspects receive Positive, Negative or Neutral plus a supporting quote. Unmentioned aspects are Absent. When one aspect has both praise and a complaint, it counts as Negative. Repeated aspect entries are consolidated, preserving their evidence.
 
-## Questions
+## Main results
 
-1. What do guests praise and complain about, and how often? We look at fixed aspects: cleanliness, maintenance, host communication, check-in and location.
-2. Does the mix change by area and type of home?
-3. Has it changed over time, for example by season?
-4. Check: do complaints about an aspect match the matching sub-score, for example cleanliness complaints and the cleanliness score? If they do not, that is a warning about the labels.
+| Finding | Observed result | Proposed action |
+|---|---|---|
+| Maintenance | 696/9,971 valid reviews (6.98%). December–March: 334/4,063 (8.22%); April–November: 362/5,908 (6.13%). The direction also holds for complete years 2023–2025 | Review equipment function and property condition before arrivals; consider a pre-December inspection schedule |
+| Area patterns | At least one complaint in 102/394 Hallandale Beach reviews (25.9%), 425/2,057 Hollywood reviews (20.7%) and 517/3,640 Fort Lauderdale reviews (14.2%) | Investigate recent complaints at relevant properties rather than infer an area causes problems |
+| Condo arrival process | Check-in complaints: 50/942 entire condos (5.31%), 100/3,258 entire rental units (3.07%) and 53/3,368 entire homes (1.57%) | Review arrival instructions and building access; a one-page arrival guide is a proposed intervention |
 
-## Data
+Other contains 805 negative reviews (8.07%), but mixes many subjects. It needs qualitative review before specific recommendations. Comparisons by current host listing count are supplementary context, not causal results or performance targets.
 
-Inside Airbnb, Broward County, Florida (scraped 2026-06-29): 703,651 guest reviews of 14,257 homes, plus a listings file with 17,698 homes and 90 columns. Details and download instructions are in [`data/README.md`](data/README.md). The real data is not stored in this repository.
+Counts describe reviews, not unique guests or listings. Groups differ in property mix and time; several reviews can belong to the same listing. Review dates approximate timing and are not stay dates. Suggested interventions have not been tested for effects on ratings, bookings or profit.
 
-## Phase 2 results so far
+## Evaluation and limits
 
-Full details in [`notebooks/phase2_exploration.ipynb`](notebooks/phase2_exploration.ipynb).
+- Development used 16 invented reviews and a separate 20-review real pilot.
+- Of the 10,000 main outputs, 9,971 pass format and quote checks; 29 fail the contiguous-quote requirement and remain unknown. Valid quotes do not guarantee correct interpretation.
+- Agreement with the team's 30-review labels is 228/240 (95%), or 67/79 (84.81%) excluding jointly absent aspects. These are agreement measures, not proven accuracy. The notebook documents the evaluation procedure and its limitations.
+- Gui confirmed 18 of 20 sampled Negative decisions, with clarification from an assistant during the review. This spot check cannot measure missed complaints or overall accuracy.
+- Listing-level sub-scores provide a rough consistency check, not individual-review ground truth. A diagnostic subset gives equal weight to 282 listings with at least five valid sampled reviews; it does not represent all properties.
+- VADER and keyword analysis in Phase II were exploratory. Its 2.4% negative sentiment is not the share of reviews containing complaints, and cleanliness keyword mentions do not establish the leading complaint.
+- The long run took approximately 2 hours 55 minutes. Estimated main-sample cost was USD 2.3043, including the 30 comparison reviews, using classroom rates. Provider billing is authoritative.
 
-* Only about 2.4% of recent English reviews are negative (VADER), so complaints are rare and easy to miss.
-* Cleanliness shows up in 42% of the negative reviews, the most common complaint. Maintenance is mentioned less, but when it is, it is the most likely to be negative.
-* Homes with a cleanliness score below 4.5 get 5.3% negative reviews, against 1.2% for homes above 4.8, so the text carries real signal.
-* A first test of the Claude aspect prompt on 12 made-up reviews agreed with our expected labels on 95% of the decisions, at about $0.0002 per review.
+## Read and reproduce
 
-## Plan for Phase 3
+Start with [the Phase III notebook](notebooks/phase3_aspect_analysis.ipynb) or its [HTML export](notebooks/phase3_aspect_analysis.html). Their saved aggregate outputs can be read without executing code. [Phase II](notebooks/phase2_exploration.ipynb) remains as historical exploration.
 
-1. Aspect-based sentiment with the Claude API on about 1,500 recent English reviews: for each aspect (cleanliness, maintenance, host communication, check-in, location, plus noise and parking after the Phase 2 test), Claude says positive, negative or not mentioned. Because complaints are rare, the sample adds extra reviews with low VADER scores, weighted back down when we report shares.
-2. Hand-check 100 of Claude's labels and report how often we agree, aspect by aspect.
-3. Break down negative mentions by area, property type and season, and turn them into recommendations for the COO.
+For local execution, install the packages in `requirements.txt` in the course Python environment. Place the original source files in `data/raw/`. Reading the saved Phase III analysis through code also requires private sample manifests, model-response caches, annotation files and review decisions under `data/raw/phase3/`, shared separately by the team. A fresh clone does not include these private files and cannot reproduce the saved calls from the public files alone.
 
-## How to run
+Keep **RUN_SYNTHETIC, RUN_PILOT, RUN_EVALUATION and RUN_MAIN set to False** when reading cached results. Live API use requires an authorized key in the local `.env`, completed reviews of preceding stages and explicit activation of one stage only. Never use Run All with any API switch set to True. API calls may incur charges; rerunning is not needed to read published results.
 
-1. Install Python 3.13 and the packages: `pip install -r requirements.txt`
-2. Download `reviews.csv.gz` and `listings.csv.gz` (see [`data/README.md`](data/README.md)) into `data/raw/`.
-3. Optional, only to rerun the Claude test: create a file named `.env` in the repo folder with one line, `ANTHROPIC_API_KEY=your-key`. It is listed in `.gitignore`. Without a key the notebook skips the API call and loads the saved results.
-4. Open `notebooks/phase2_exploration.ipynb` and run all cells. It takes about two minutes.
+## Repository contents
 
-## Repository
+- `notebooks/`: Phase II exploration and Phase III analysis/report, plus the HTML export.
+- `src/`: preprocessing and Phase III helpers, including definitions, prompt, validation and aggregation.
+- `data/`: source documentation and invented examples only.
+- `requirements.txt`, `.gitignore`, `LICENSE`: environment, private-file exclusions and code license.
 
-```
-data/        data description, made-up sample reviews, the Claude test results, and a git-ignored raw/ folder
-notebooks/   phase2_exploration.ipynb: data exploration, text mining and the Phase 3 plan
-src/         preprocessing.py: reusable cleaning and loading functions
-LICENSE      MIT license
-README.md    this file
-requirements.txt
-```
+Real reviews, original datasets, labels linked to review text, response caches and API keys stay in ignored local files. Share them privately within the team, not through GitHub. The MIT license covers the project code, not third-party source data.
 
-## Progress
+## Remaining work
 
-* Oct 3: problem, data and repository set up (Phase 1).
-* Oct 20: switched to Path B after the Phase 1 feedback.
-* Oct 21: Manoj cloned the repo and reviewed the Path B plan.
-* Oct 26: Phase 2 notebook with data exploration, keyword, sentiment and aspect analysis, the Phase 3 plan and a first Claude prompt test.
-
-## Team
-
-* Guilherme Buissa
-* Manoj Sandra
+Select final visuals and rehearse the November 10 presentation. Complete the final report after presentation feedback. The team completed an exploratory reading of 20 Other complaints; this does not establish topic prevalence across all 805. The notebook's AI Usage Log records the tools, tasks, checks and decisions.
