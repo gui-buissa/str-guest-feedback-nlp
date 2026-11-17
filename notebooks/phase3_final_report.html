@@ -7802,11 +7802,10 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Guest-Review-Analytics-for-Short-Term-Rentals">Guest Review Analytics for Short-Term Rentals<a class="anchor-link" href="#Guest-Review-Analytics-for-Short-Term-Rentals">¶</a></h1><h2 id="Phase-III:-aspect-based-sentiment-analysis">Phase III: aspect-based sentiment analysis<a class="anchor-link" href="#Phase-III:-aspect-based-sentiment-analysis">¶</a></h2><p><strong>Check In, Check Out: Guilherme Buissa and Manoj Sandra</strong></p>
-<p>What do guests praise and complain about, and what should an operations team look at first?</p>
-<p>The data is public Inside Airbnb reviews from Broward County, not a company's internal data, so results describe the market and not any one operator.</p>
-<p>As in section 4 of Class 10, Claude labels each aspect of a review separately. VADER stays in Phase II as exploration and is not used here.</p>
-<p><strong>Status:</strong> the main run is complete. Of 10,000 sampled reviews, 9,971 have valid outputs and 29 remain unknown. Findings below use the saved results. Real reviews, quotes and API keys stay out of this notebook and out of GitHub.</p>
+<h1 id="Guest-Review-Analytics">Guest Review Analytics<a class="anchor-link" href="#Guest-Review-Analytics">¶</a></h1><h2 id="Short-Term-Rentals-in-Broward-County">Short-Term Rentals in Broward County<a class="anchor-link" href="#Short-Term-Rentals-in-Broward-County">¶</a></h2><p><strong>Check In, Check Out: Guilherme Buissa and Manoj Sandra</strong></p>
+<p>A short-term rental operations lead needs to know which problems guests report and where to investigate first. We analyzed public Inside Airbnb reviews from Broward County to identify complaints by subject, area, season and property type. The results describe the local market, not a specific company's performance.</p>
+<h3 id="Summary">Summary<a class="anchor-link" href="#Summary">¶</a></h3><p>Of 10,000 sampled reviews, 9,971 returned valid outputs and 29 remain unknown. Among valid outputs, 1,545 reviews (15.5%) contain at least one complaint. Maintenance is the largest named complaint category (6.98%), with a higher share from December to March. Complaint shares also differ by area, and arrival complaints are more common in entire condos than entire homes.</p>
+<p>We recommend targeted property inspections, a closer reading of recent complaints and clearer arrival instructions. These recommendations have not been tested for effects on ratings, bookings or profit. Real review text and API keys remain private.</p>
 </div>
 </div>
 </div>
@@ -7866,14 +7865,10 @@ Each API stage below has its own switch, False by default.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="1-Data-and-sampling">1 Data and sampling<a class="anchor-link" href="#1-Data-and-sampling">¶</a></h2><p>Source: Inside Airbnb, Broward County (<code>data/raw/reviews.csv.gz</code> and <code>data/raw/listings.csv.gz</code>).</p>
-<p>Reviews are joined to listings on <code>listing_id</code>. Reviews with no text or a repeated ID are dropped. Only reviews from 2023 on in English are kept, using the same simple rule as Phase II, which is a rough check and not a real language detector. The files are labeled June 29, 2026, but include reviews through July 1.</p>
-<ul>
-<li><strong>Main sample:</strong> 10,000 random reviews (seed 42), with no VADER selection and no weights.</li>
-<li><strong>Pilot:</strong> 20 random reviews outside the main sample.</li>
-<li><strong>Comparison set:</strong> 30 random reviews from the main sample.</li>
-</ul>
-<p>Each review counts once, so listings with more reviews weigh more. A bigger sample does not guarantee enough complaints in every group.</p>
+<h2 id="1-Data">1 Data<a class="anchor-link" href="#1-Data">¶</a></h2><p>The source is Inside Airbnb, Broward County, Florida. The files contain 703,651 reviews and 17,698 listings. They are labeled June 29, 2026, but include reviews through July 1. Source details and access instructions are in <code>data/README.md</code>.</p>
+<p>We joined reviews to listings on <code>listing_id</code>, removed empty text and repeated review IDs, and kept reviews from 2023 onward. The English filter uses the Phase II rule, at least three words and a 20% English stopword share. This is a rough filter, not a language detector.</p>
+<p>From 408,181 eligible reviews, we sampled 10,000 at random (seed 42), covering 5,175 listings. A separate pilot contains 20 reviews outside the main sample. The comparison set contains 30 random reviews from the main sample.</p>
+<p>We did not select reviews using VADER or add extra negative reviews. Each review has equal weight, so properties with more reviews contribute more to the results.</p>
 </div>
 </div>
 </div>
@@ -7996,14 +7991,13 @@ Only counts are displayed. Real texts are private.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="2-Aspects-and-labels">2 Aspects and labels<a class="anchor-link" href="#2-Aspects-and-labels">¶</a></h2><p>Seven aspects: cleanliness, maintenance, host communication, check-in, location, noise and parking. <code>other</code> catches anything else a guest mentions.</p>
+<h2 id="2-Method">2 Method<a class="anchor-link" href="#2-Method">¶</a></h2><p>Seven aspects: cleanliness, maintenance, host communication, check-in, location, noise and parking. <code>other</code> catches anything else a guest mentions.</p>
 <p>Same format as Class 10: only the aspects a review mentions, each with Positive, Negative or Neutral and a short quote. An aspect left out is not Neutral. The comparison sheet calls this Absent.</p>
-<p>Two rules come from this project, not from the class material:</p>
-<ul>
-<li>Praise and a complaint about the same aspect count as Negative, so problems are not hidden.</li>
-<li>If Claude lists an aspect twice in one review, it counts once: Negative first, then Positive, then Neutral. All quotes are kept, and the number of reviews with repeats is reported.</li>
-</ul>
+<p>When an aspect has both praise and a complaint, we count it as Negative. Repeated entries count once, with Negative taking priority over Positive and Neutral. All supporting quotes are retained.</p>
 <p>We checked and refined the aspect definitions during development tests.</p>
+<h3 id="Why-this-method">Why this method<a class="anchor-link" href="#Why-this-method">¶</a></h3><p>Phase II used descriptive statistics, VADER and keyword counts. VADER classified about 95% of reviews as positive, but a favorable overall comment can still contain an operational complaint. Keyword mentions alone cannot distinguish praise, criticism or negation. These exploratory results motivated a more specific question: which aspects attract complaints, and in which groups?</p>
+<p>We chose Path B and the aspect-based sentiment approach from Class 10, section 4. The available ratings describe listings, not individual reviews, so they do not provide the individual-review target needed for our original prediction idea. Prediction would require a different target and evaluation design.</p>
+<p>Claude supplies an aspect, sentiment and supporting quote without our training a new model. Topic modeling could identify subjects but would not by itself label their sentiment. A supervised aspect classifier could work, but would require a sufficiently large labeled training set. We chose by suitability for the question and available labels; we did not benchmark these alternatives on the 10,000-review sample.</p>
 </div>
 </div>
 </div>
@@ -8255,10 +8249,9 @@ Output schema:
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="3-Tests-before-the-main-run">3 Tests before the main run<a class="anchor-link" href="#3-Tests-before-the-main-run">¶</a></h2><p>API calls run locally with the class key in <code>.env</code>. The order is 16 invented reviews, then 20 real reviews.</p>
-<p>Each stage has one switch in its own cell. Set it to True, run only that cell, then set it back to False. Never use Run All with a switch on.</p>
-<p>Answers are saved one by one, so a stopped run can resume. A new prompt starts a new cache. Network, rate and server errors get up to six tries, with waits of 5, 15, 30, 60 and 60 seconds, and a key error stops right away. Costs are estimates from the class price table, not a bill.</p>
-<p>Reviewer name columns are not loaded, but names can still appear inside a review, so the 20 real reviews were read before sending them.</p>
+<h2 id="3-Tests">3 Tests<a class="anchor-link" href="#3-Tests">¶</a></h2><p>Before the main run, we tested 16 invented reviews and a separate pilot of 20 real reviews. Reviewer name columns were excluded, and the pilot texts were checked before sending them.</p>
+<p>Responses are saved individually so an interrupted run can resume. Temporary connection, rate and server failures receive up to six attempts. Authentication errors stop the run. Costs use classroom token rates and may differ from provider billing.</p>
+<p>The four API switches are saved as False. Keep them off when reading results. Live calls require a local key in <code>.env</code> and explicit activation of one stage. Never use Run All with a switch on.</p>
 </div>
 </div>
 </div>
@@ -8297,8 +8290,7 @@ Output schema:
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Test-1:-16-invented-reviews">Test 1: 16 invented reviews<a class="anchor-link" href="#Test-1:-16-invented-reviews">¶</a></h3><p>Twelve come from Phase II. The other four test a factual mention, praise and a complaint on one aspect, negation and sarcasm. None of them enter the 10,000, the comparison or any rate.</p>
-<p>The expected labels are a guide for development. A disagreement is something to discuss, not a reason to change the expected label. The first 12-review run is kept as a record of the repeated-aspect problem.</p>
+<h3 id="Invented-reviews">Invented reviews<a class="anchor-link" href="#Invented-reviews">¶</a></h3><p>Twelve examples come from Phase II. Four additional cases test factual mentions, mixed sentiment, negation and sarcasm. These examples support prompt development and do not enter market percentages or evaluation results.</p>
 </div>
 </div>
 </div>
@@ -8619,7 +8611,7 @@ Discussion: Sarcasm about a concrete equipment problem.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Test-2:-20-real-reviews-(private)">Test 2: 20 real reviews (private)<a class="anchor-link" href="#Test-2:-20-real-reviews-(private)">¶</a></h3>
+<h3 id="Pilot">Pilot<a class="anchor-link" href="#Pilot">¶</a></h3>
 </div>
 </div>
 </div>
@@ -8763,10 +8755,9 @@ No full run is enabled automatically from a good-looking pilot.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Review-before-the-next-stage">Review before the next stage<a class="anchor-link" href="#Review-before-the-next-stage">¶</a></h3><p>Results open in a private HTML report in <code>data/raw/phase3/</code>, which stays out of Git. It shows each review, its labels and quotes, and any failures. Worth reading closely: Other, empty outputs, repeats, sarcasm and negation.</p>
-<p>The quote check only shows that the words are in the review, ignoring case, quote style and spacing. It does not show that the label is right.</p>
-<p>Decisions go in <code>review_decisions.json</code> for the current version. A new prompt needs a new acceptance.</p>
-<p>Failed answers stay saved. <code>retry_failed=True</code> tries them again, and nothing is removed or relabeled automatically. Failures in the main run count as unknown.</p>
+<h3 id="Quality-checks">Quality checks<a class="anchor-link" href="#Quality-checks">¶</a></h3><p>Private HTML reports show the review, labels, quotes and failures. We examined Other, empty outputs, repeated aspects, sarcasm and negation.</p>
+<p>The quote check confirms that the supporting words occur in the review, allowing differences in case, quote style and spacing. It does not establish that the interpretation is correct. Stage acceptance is recorded for the current configuration in <code>review_decisions.json</code>.</p>
+<p>Failed outputs remain saved and count as unknown. They are retried only when explicitly requested.</p>
 </div>
 </div>
 </div>
@@ -8847,7 +8838,8 @@ No full run is enabled automatically from a good-looking pilot.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="4-Comparison-with-team-labels-(30-reviews)">4 Comparison with team labels (30 reviews)<a class="anchor-link" href="#4-Comparison-with-team-labels-(30-reviews)">¶</a></h2><p>Gui and Manoj filled in <code>data/raw/phase3/human_label_Gui_Manoj.xlsx</code>, sheet <code>Rotulos</code>, with Positive, Negative, Neutral or Absent for each aspect.</p>
+<h2 id="4-Team-comparison">4 Team comparison<a class="anchor-link" href="#4-Team-comparison">¶</a></h2><p>Gui and Manoj filled in <code>data/raw/phase3/human_label_Gui_Manoj.xlsx</code>, sheet <code>Rotulos</code>, with Positive, Negative, Neutral or Absent for each aspect.
+The comparison covers 30 reviews and eight aspects per review. We report agreement with the team, not proven accuracy. Jointly absent aspects can inflate agreement, so we also report agreement where either side mentions an aspect. Only 10 team decisions were Negative.</p>
 </div>
 </div>
 </div>
@@ -9013,8 +9005,7 @@ Unknowns are reported separately, never treated as Absent or scored as incorrect
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="5-Main-run">5 Main run<a class="anchor-link" href="#5-Main-run">¶</a></h2><p>Agreement can look high just because most aspects are absent, so the disagreements matter more than the overall number. Thirty random reviews may also hold few complaints. If the prompt changes because of these reviews, a new comparison is needed.</p>
-<p>A stopped run resumes with the same prompt and sample. Only one run at a time should write to the cache.</p>
+<h2 id="5-Main-run">5 Main run<a class="anchor-link" href="#5-Main-run">¶</a></h2><p>The main run used the same prompt and definitions as the final checks. The 30 comparison reviews were reused from the cache, leaving 9,970 new calls in the long run. All 10,000 reviews have an attempted result. Invalid outputs remain unknown rather than being treated as reviews without complaints.</p>
 </div>
 </div>
 </div>
@@ -9074,14 +9065,8 @@ dtype: int64</pre>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="6-Findings-(after-the-main-run)">6 Findings (after the main run)<a class="anchor-link" href="#6-Findings-(after-the-main-run)">¶</a></h2><p>Three rates are shown:</p>
-<ul>
-<li>Of all sampled reviews. This is a lower bound if some answers failed.</li>
-<li>Of valid reviews. Failures may not be random.</li>
-<li>Of valid reviews that mention the aspect.</li>
-</ul>
-<p>A review can mention several aspects, so percentages do not add up to 100. Negative includes reviews with both praise and a complaint on that aspect.</p>
-<p>These rates describe reviews, not listings, and they do not show cause. Other mixes different topics, so it needs a close read before any recommendation.</p>
+<h2 id="6-Results">6 Results<a class="anchor-link" href="#6-Results">¶</a></h2><p>The tables show complaint shares among all sampled reviews, valid reviews and valid reviews mentioning each aspect. The first denominator retains unknowns and gives a lower observed share when outputs fail. Failures may not be random.</p>
+<p>A review can contain praise and several complaints, so aspect percentages do not add to 100. Results count reviews, not properties, and the comparisons do not establish cause.</p>
 </div>
 </div>
 </div>
@@ -9274,7 +9259,7 @@ Unknown classifications: 29 ; never treat these as zero complaints.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Groups-and-listing-checks">Groups and listing checks<a class="anchor-link" href="#Groups-and-listing-checks">¶</a></h3><p>Area, property type and room type, one at a time. Rates use valid reviews, with unknowns shown next to them. Only groups with at least 100 valid reviews appear, which is a display rule and not a statistical test. Complaint counts and listing counts are always shown. Fewer than 5 complaints counts as sparse and is not ranked.</p>
+<h3 id="Group-comparisons">Group comparisons<a class="anchor-link" href="#Group-comparisons">¶</a></h3><p>Area, property type and room type, one at a time. Rates use valid reviews, with unknowns shown next to them. Only groups with at least 100 valid reviews appear, which is a display rule and not a statistical test. Complaint counts and listing counts are always shown. Fewer than 5 complaints counts as sparse and is not ranked.</p>
 <p>Listings with many reviews weigh more, so listing-level counts are checked too. This only covers listings with at least 5 valid reviews, which do not represent all listings. No claims about statistical significance or cause.</p>
 </div>
 </div>
@@ -10531,7 +10516,7 @@ Unknown classifications: 29 ; never treat these as zero complaints.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Area,-season,-host-size-and-keywords">Area, season, host size and keywords<a class="anchor-link" href="#Area,-season,-host-size-and-keywords">¶</a></h3><p>These cells use saved outputs only. They show counts and no review text.</p>
+<h3 id="Additional-checks">Additional checks<a class="anchor-link" href="#Additional-checks">¶</a></h3><p>These tables use saved results and display no review text.</p>
 </div>
 </div>
 </div>
@@ -11477,18 +11462,18 @@ dtype: int64</pre>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="7-Findings-and-recommendations">7 Findings and recommendations<a class="anchor-link" href="#7-Findings-and-recommendations">¶</a></h2><p>Results describe the sampled market reviews, not any one company. Rates use the 9,971 valid reviews unless a group is named. One review can hold several complaints and also praise. Comparisons are descriptive and do not show cause. Keyword counts are rough: one quote can match several words, and some match none. The three main findings guide the presentation; host listing count is supplementary. Suggested deadlines and the arrival guide are proposals from our analysis, not interventions tested by the model.</p>
-<h3 id="1.-Maintenance-is-the-top-named-complaint,-with-a-higher-rate-in-December-to-March">1. Maintenance is the top named complaint, with a higher rate in December to March<a class="anchor-link" href="#1.-Maintenance-is-the-top-named-complaint,-with-a-higher-rate-in-December-to-March">¶</a></h3><p>Maintenance appears in <strong>696/9,971 reviews (6.98%)</strong> and cleanliness in <strong>381/9,971 (3.82%)</strong>. Other is larger at 805 (8.07%), but it mixes many subjects. Its biggest keyword theme, beds and linens, has about 158. In total, 1,545 reviews (15.5%) hold at least one complaint, and 1,010 have no extracted aspect.</p>
+<h2 id="7-Recommendations">7 Recommendations<a class="anchor-link" href="#7-Recommendations">¶</a></h2><p>Results describe the sampled market reviews, not any one company. Rates use the 9,971 valid reviews unless a group is named. One review can hold several complaints and also praise. Comparisons are descriptive and do not show cause. Keyword counts are rough: one quote can match several words, and some match none. Host listing count provides additional context. Suggested deadlines and the arrival guide are proposals from our analysis, not interventions tested by the model.</p>
+<h3 id="Maintenance">Maintenance<a class="anchor-link" href="#Maintenance">¶</a></h3><p>Maintenance appears in <strong>696/9,971 reviews (6.98%)</strong> and cleanliness in <strong>381/9,971 (3.82%)</strong>. Other is larger at 805 (8.07%), but it mixes many subjects. Beds and linens match 158 Other-negative entries. Keyword matches overlap and are not validated topic labels. In total, 1,545 reviews (15.5%) hold at least one complaint, and 1,010 have no extracted aspect.</p>
 <p>Maintenance reaches <strong>334/4,063 (8.22%)</strong> in reviews dated December to March, against <strong>362/5,908 (6.13%)</strong> from April to November. Using only 2023 to 2025, the rates are 208/2,772 (7.50%) and 294/4,887 (6.02%). Cleanliness barely moves (3.86% and 3.79%). A review date is not the stay date, so the timing is approximate.</p>
 <p>In maintenance quotes, the keyword counts are plumbing and bathrooms 127, wear and damage 116, furniture and beds 83, AC 81 and appliances 75. Hot water has only 22.</p>
 <p><strong>Recommendation:</strong> before December each year, add a check of plumbing, wear, furniture and AC to the pre-arrival cleaning inspection. Track the monthly share of reviews with a maintenance complaint. The observed 8.22% for December to March is context, not a target or an adjusted benchmark.</p>
-<h3 id="2.-Hollywood-and-Hallandale-Beach-have-a-higher-share-of-reviews-with-at-least-one-complaint">2. Hollywood and Hallandale Beach have a higher share of reviews with at least one complaint<a class="anchor-link" href="#2.-Hollywood-and-Hallandale-Beach-have-a-higher-share-of-reviews-with-at-least-one-complaint">¶</a></h3><p>Reviews with any complaint: <strong>102/394 in Hallandale Beach (25.9%)</strong>, <strong>425/2,057 in Hollywood (20.7%)</strong> and <strong>517/3,640 in Fort Lauderdale (14.2%)</strong>. Maintenance: 45/394 (11.42%), 197/2,057 (9.58%) and 228/3,640 (6.26%). Maintenance is a similar part of the complaints in all three (44%, 46% and 44%), so the gap is not specific to maintenance.</p>
+<h3 id="Area-differences">Area differences<a class="anchor-link" href="#Area-differences">¶</a></h3><p>Reviews with any complaint: <strong>102/394 in Hallandale Beach (25.9%)</strong>, <strong>425/2,057 in Hollywood (20.7%)</strong> and <strong>517/3,640 in Fort Lauderdale (14.2%)</strong>. Maintenance: 45/394 (11.42%), 197/2,057 (9.58%) and 228/3,640 (6.26%). Maintenance is a similar part of the complaints in all three (44%, 46% and 44%), so the gap is not specific to maintenance.</p>
 <p>Lauderdale By The Sea also has a high maintenance rate, 28/267 (10.49%), but with a smaller count and 45/267 (16.9%) for any complaint. Hallandale Beach also rests on a small count, so Hollywood is the firmer result.</p>
 <p><strong>Recommendation:</strong> an operator with homes in these areas should read all recent complaints for those homes before December, starting with Hollywood, instead of looking only at maintenance records. This is not evidence that an area causes complaints.</p>
-<h3 id="3.-Arrival-problems-are-most-common-in-condos">3. Arrival problems are most common in condos<a class="anchor-link" href="#3.-Arrival-problems-are-most-common-in-condos">¶</a></h3><p>Check-in complaints appear in <strong>50/942 entire condo reviews (5.31%)</strong>, <strong>100/3,258 entire rental unit reviews (3.07%)</strong> and <strong>53/3,368 entire home reviews (1.57%)</strong>. Condos are above homes in each of the four areas checked: Fort Lauderdale 10/309 and 16/1,206, Hollywood 31/387 and 12/510, Hallandale Beach 5/86 and 1/80, Pompano Beach 3/101 and 8/400. Hosts choose these labels, so condos and rental units can overlap.</p>
+<h3 id="Condo-arrivals">Condo arrivals<a class="anchor-link" href="#Condo-arrivals">¶</a></h3><p>Check-in complaints appear in <strong>50/942 entire condo reviews (5.31%)</strong>, <strong>100/3,258 entire rental unit reviews (3.07%)</strong> and <strong>53/3,368 entire home reviews (1.57%)</strong>. Condos are above homes in each of the four areas checked: Fort Lauderdale 10/309 and 16/1,206, Hollywood 31/387 and 12/510, Hallandale Beach 5/86 and 1/80, Pompano Beach 3/101 and 8/400. Hosts choose these labels, so condos and rental units can overlap.</p>
 <p>In condo quotes, codes, keys and locks appear 21 times out of 50, and front desk or building 13 times. In home quotes, they appear 8 and 0 times out of 53. Only 2 check-in complaints were hand-checked, one in each check below, so these quotes should be read before acting.</p>
 <p><strong>Recommendation:</strong> before December, give condo guests a one-page arrival guide covering codes, keys and any front desk or building step, then do the same for rental units if it helps. Compare check-in complaints after high season with the 5.31% starting point.</p>
-<h3 id="Additional-context:-reviews-grouped-by-host-listing-count">Additional context: reviews grouped by host listing count<a class="anchor-link" href="#Additional-context:-reviews-grouped-by-host-listing-count">¶</a></h3><table>
+<h3 id="Host-size">Host size<a class="anchor-link" href="#Host-size">¶</a></h3><table>
 <thead>
 <tr>
 <th>Host's listings</th>
@@ -11515,18 +11500,18 @@ dtype: int64</pre>
 </tbody>
 </table>
 <p>Maintenance is higher for hosts with 21 or more listings than for hosts with 1 to 5 in all four areas checked: Fort Lauderdale 7.4% and 4.7%, Hollywood 12.9% and 8.5%, Hallandale Beach 19.1% and 9.3%, Pompano Beach 15.5% and 4.6%. Host size does not replace area, since small hosts in Hollywood and Hallandale Beach are still above small hosts in Fort Lauderdale.</p>
-<p>Guests may criticize a company more freely than a person, and larger hosts may run different properties, so this does not show worse service. Listing counts are current, not from the time of each review.</p>
+<p>Larger hosts may run different properties, so this comparison does not establish worse service. Listing counts are current, not from the time of each review.</p>
 <p><strong>Use as context:</strong> the 10.54% rate for the 21-or-more group is a descriptive comparison, not an operator target or an adjusted benchmark. Consider both this group and the overall 6.98%, along with differences in area and property type. These bands use the current calculated host listing count in the Broward dataset, not a verified total company portfolio.</p>
-<h3 id="Checks-and-limits-behind-these-recommendations">Checks and limits behind these recommendations<a class="anchor-link" href="#Checks-and-limits-behind-these-recommendations">¶</a></h3><ul>
+<h3 id="Supporting-checks">Supporting checks<a class="anchor-link" href="#Supporting-checks">¶</a></h3><ul>
 <li><strong>Team comparison:</strong> 228/240 aspect decisions agree (95%), or 67/79 (84.81%) without jointly absent aspects. The team marked 10 Negative, Claude marked 10, and 9 are the same. This is agreement, not proven accuracy.</li>
 <li><strong>Negative check:</strong> Gui reviewed 20 sampled Negative decisions and confirmed 18, including 6 of 7 for maintenance. This is not overall accuracy and cannot find missed complaints.</li>
 <li><strong>Listing scores:</strong> reviews with a complaint belong to listings with lower average sub-scores: cleanliness 4.63 and 4.82, check-in 4.75 and 4.90, communication 4.71 and 4.90, location 4.71 and 4.84. These scores are listing averages, not review ratings, and maintenance has no sub-score.</li>
 <li><strong>Invalid outputs:</strong> all 29 fail the exact quote check when checked again offline. They remain unknown. We did not relax the rule or make another API call. A valid quote does not prove the label is right.</li>
 <li><strong>Listing view:</strong> 282 listings have at least 5 valid reviews (1,828 reviews). With equal weight, maintenance averages 5.33% and cleanliness 2.97%, so maintenance stays on top in this selected group. Median rates are zero for both.</li>
-<li><strong>Cost:</strong> about <strong>USD 2.3043</strong> for the main sample, including its 30 comparison reviews, at classroom token rates. The long run took about 2 hours 55 minutes. Actual billing is the final reference.</li>
+<li><strong>Cost:</strong> about <strong>USD 2.3043</strong> for the main sample, including its 30 comparison reviews, at classroom token rates. The main sample used 16,076,307 input tokens and 1,393,410 output tokens, including its 30 comparison reviews. The long run took about 2 hours 55 minutes. Actual billing is the final reference.</li>
 </ul>
 <p>These recommendations are starting points for an operator to investigate. We have not tested whether they improve ratings, bookings or profit. No change from year to year is claimed, because 2026 is incomplete.</p>
-<h3 id="Exploratory-reading-of-Other">Exploratory reading of Other<a class="anchor-link" href="#Exploratory-reading-of-Other">¶</a></h3><p>The team reviewed an assistant-prepared draft for 20 randomly sampled Other-negative reviews (seed 20261106). Final judgments were 13 Yes, 4 No and 3 Unclear. Examples supporting Other concerned comfort, basic supplies, differences from advertised features, space/privacy and elevator waits without a stated mechanical fault. Some rejected or uncertain cases were factual observations, positive statements or issues overlapping maintenance. This small guided reading illustrates the category's variety and interpretation limits. It is not an error-rate estimate for all 805 reviews, and the original model labels were not changed.</p>
+<h3 id="Other">Other<a class="anchor-link" href="#Other">¶</a></h3><p>The team reviewed 20 randomly sampled Other-negative reviews using a draft prepared with assistant support (seed 20261106). Final judgments were 13 Yes, 4 No and 3 Unclear. Examples supporting Other concerned comfort, basic supplies, differences from advertised features, space/privacy and elevator waits without a stated mechanical fault. Some rejected or uncertain cases were factual observations, positive statements or issues overlapping maintenance. This small guided reading illustrates the category's variety and interpretation limits. It is not an error-rate estimate for all 805 reviews, and the original model labels were not changed.</p>
 </div>
 </div>
 </div>
@@ -11637,21 +11622,17 @@ dtype: int64</pre>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="8-Limitations,-privacy-and-ethics">8 Limitations, privacy and ethics<a class="anchor-link" href="#8-Limitations,-privacy-and-ethics">¶</a></h2><ul>
-<li>Reviews come only from guests who chose to post, and sentiment is not a business outcome.</li>
-<li>The English rule, the 2023 cutoff and one county limit how far results generalize. Old reviews link to the current listing data.</li>
-<li>Few complaints, several reviews per listing and labeling mistakes can all affect comparisons.</li>
-<li>Listing ratings are averages, not the rating of each review, so they are not labels.</li>
-<li>Comments about safety or neighborhoods are guest opinions. Results should not be used to stigmatize residents or penalize staff or owners.</li>
-<li>Reviews can include host names. Real text, quotes and keys stay out of GitHub and this report, and examples are invented or paraphrased.</li>
-<li>Host size is shown only in broad groups. No host is named or ranked.</li>
-</ul>
+<h2 id="8-Limits-and-privacy">8 Limits and privacy<a class="anchor-link" href="#8-Limits-and-privacy">¶</a></h2><p>The sample excludes reviews before 2023 and text rejected by the English filter. Guests who do not post reviews are also absent. These choices limit how far the findings generalize.</p>
+<p>Several reviews can belong to one property, and old reviews are linked to current listing attributes. Small complaint counts and labeling errors can affect group comparisons. Listing ratings are averages, not ratings for individual reviews.</p>
+<p>Review text can contain personal names. Real reviews, supporting quotes, annotation files, caches and API keys stay outside GitHub and the public report. Public examples are invented. Sending text to an external API remains a privacy consideration even when reviewer fields are excluded.</p>
+<p>Area patterns reflect guest opinions and differences in the sampled properties. They should guide investigation, not stigmatize residents or penalize staff and owners. Host size is shown in broad groups without naming hosts. Sentiment alone does not measure business performance.</p>
+<h3 id="Next-steps">Next steps<a class="anchor-link" href="#Next-steps">¶</a></h3><p>Use two separate annotators and more checks for each aspect, especially complaints. Split Other into clearer subjects before estimating their prevalence. An operator could test the proposed inspections and arrival guide using its own records; our market data does not show whether these actions work.</p>
 <h2 id="9-AI-Usage-Log">9 AI Usage Log<a class="anchor-link" href="#9-AI-Usage-Log">¶</a></h2><table>
 <thead>
 <tr>
 <th>Tool</th>
 <th>Task</th>
-<th>Prompt or instruction</th>
+<th>Instruction</th>
 <th>Output used</th>
 <th>Verification</th>
 <th>Decision</th>
@@ -11659,35 +11640,26 @@ dtype: int64</pre>
 </thead>
 <tbody>
 <tr>
-<td>AI coding and writing assistants</td>
-<td>Support code, sampling, explanations, findings and review drafts</td>
-<td>Follow classroom methods, fixed aspect definitions and private-data handling</td>
-<td>Reviewed helper code, report drafts and exploratory review drafts</td>
-<td>Offline tests, saved outputs, review by another assistant and team review</td>
-<td>Retained reviewed work. Team revised annotations and interpretations after discussion</td>
+<td>AI assistants</td>
+<td>Code and report support</td>
+<td>Follow course methods and protect private data</td>
+<td>Code, text and review drafts</td>
+<td>Offline checks and team review</td>
+<td>Retained reviewed work and revised interpretations</td>
 </tr>
 <tr>
 <td>Claude API</td>
-<td>Extract aspect sentiment</td>
-<td>Apply the fixed definitions and return sentiment with exact supporting quotes</td>
-<td>Model outputs for tests and 10,000 sampled reviews</td>
-<td>Quote checks, pilot reading, 30-review comparison and 20-negative spot check</td>
-<td>Kept 9,971 valid outputs and 29 unknowns. No prompt tuning on the final checks</td>
+<td>Aspect sentiment</td>
+<td>Return fixed aspects, sentiment and exact supporting quotes</td>
+<td>Tests and 10,000 sampled reviews</td>
+<td>Quote checks, pilot and team comparisons</td>
+<td>Kept 9,971 valid outputs; 29 remain unknown</td>
 </tr>
 </tbody>
 </table>
-<p>The negative spot check included assistant explanations, and the Other reading used an assistant draft reviewed by the team. We report agreement and exploratory findings, not blind independent accuracy.</p>
-<p>An assistant executed the first 12 invented-review calls at Gui's request; Gui executed the later API stages locally. Saved configurations contain 10,084 response records, including 9,970 new calls in the long run. Estimated total cost is USD 2.3218 at classroom rates, not a provider invoice.</p>
-<p>Errors found: the initial test rejected 4/12 outputs with repeated aspects; we clarified definitions and consolidated repeats before the main run. The main run retained 29 quote failures as unknown. Gui disagreed with two of the 20 sampled Negative decisions. Original model responses remain preserved.</p>
-<h2 id="10-Final-checklist">10 Final checklist<a class="anchor-link" href="#10-Final-checklist">¶</a></h2><ul>
-<li>PowerPoint for Nov 10: 10 to 12 minutes plus 2 to 3 minutes of questions, with no code. Attendance and peer evaluations on both presentation days.</li>
-<li>Final report in this notebook, updated with feedback from the presentation. Date to confirm on Canvas.</li>
-<li>GitHub: README, requirements, clean code and commits from both members, with no private data.</li>
-<li>Canvas: notebook plus HTML.</li>
-</ul>
-<h3 id="Test-history">Test history<a class="anchor-link" href="#Test-history">¶</a></h3><p>The first run of 12 invented reviews had 8 accepted and 4 rejected for repeated aspects. That was a format problem, not 8 out of 12 accuracy. Repeats are now consolidated and all quotes are kept. Definitions were also updated for smoke smells, host recommendations and building upkeep.</p>
-<p>On the current prompt, 16 of 16 invented reviews, 20 of 20 pilot reviews and 30 of 30 comparison reviews returned valid answers. The main run returned 9,971 valid and 29 invalid outputs out of 10,000 attempts.
-AI assistant prepared an English draft for an exploratory reading of 20 randomly sampled Other-negative reviews (seed 20261106). The draft assigns short topics and provisional Yes/No/Unclear judgments. Gui and Manoj reviewed all 20 cases and revised the draft after discussion. Final judgments were 13 Yes, 4 No and 3 Unclear; this guided exploratory review is not independent human validation and does not change the original model labels.</p>
+<p>The Negative spot check included assistant explanations. The Other review used a draft checked and revised by the team. These are agreement and exploratory checks, not blind independent validation.</p>
+<p>We caught repeated aspects in four of the first 12 invented outputs and added consolidation before the main run. The main run produced 29 quote failures, retained as unknown. Gui rejected two of 20 sampled Negative decisions. Original model responses remain saved.</p>
+<p>The main sample used 16,076,307 input tokens and 1,393,410 output tokens, for an estimated USD 2.3043. Including development and pilot calls, saved configurations contain 10,084 response records and an estimated total cost of USD 2.3218. Estimates use classroom rates; provider billing is authoritative.</p>
 </div>
 </div>
 </div>
